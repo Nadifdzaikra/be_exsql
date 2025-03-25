@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Projects {
+  id String @id @default(cuid())
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  email String @unique
+  userPositions UserPosition[]
+}
+
+
+model Position {
+  id String @id @default(cuid())
+  title String
+  description String?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  userPositions UserPosition[]
+}
+
+model UserPosition {
+  id String @id @default(cuid())
+  userId Int
+  positionId String
+  startDate DateTime @default(now())
+  endDate DateTime?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id])
+  positions Position @relation(fields: [positionId], references: [id])
+
+  @@unique([userId, positionId, startDate])
+}
