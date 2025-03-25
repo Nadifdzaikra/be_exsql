@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+
 const prisma = new PrismaClient();
 
 // Register user

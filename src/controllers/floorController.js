@@ -16,3 +16,11 @@ export const getFloorsByLocation = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 }
+export const getAllFloors = async (req, res) => {
+  try {
+    const floors = await prisma.floor.findMany({orderBy: { name: "asc" }});
+    res.json(floors);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
