@@ -66,16 +66,24 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+      return res.status(401).json({ message: "Token tidak ditemukan" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId; 
 
     await prisma.user.update({
       where: { id: userId },
-      data: { token: null } // Hapus token dari database
+      data: { token: null }
     });
 
     res.json({ message: "Logout berhasil" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Logout gagal", error: err.message });
   }
 };
 
@@ -88,8 +96,8 @@ export const getAllUser = async (req, res) => {
         id: true,
         name: true,
         email: true,
-        userPositions: true,
-        jwtSecret: true
+        // userPositions: true,
+        // token: true
       }
     });
     res.json(users);
