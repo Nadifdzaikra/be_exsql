@@ -45,3 +45,32 @@ model UserPosition {
 
   @@unique([userId, positionId, startDate])
 }
+
+
+model Location {
+  id String @id @default(cuid())
+  name String
+  description String?
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  floors Floor[]
+}
+
+model Camera {
+  id String @id @default(cuid())
+  name String
+  floorId String //FK
+  floors Floor @relation(fields: [floorId], references: [id])
+  craeteAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Floor {
+  id String @id @default(cuid())
+  name String
+  locationId String //FK
+  locations Location @relation(fields: [locationId], references: [id])
+  cameras Camera[]
+  craeteAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}

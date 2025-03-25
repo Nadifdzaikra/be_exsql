@@ -51,6 +51,38 @@ await prisma.userPosition.createMany({
 });
 
 console.log("UserPosition berhasil ditambahkan!");
+
+// Tambah Gedung
+const location = await prisma.location.create({
+  data: {
+    name: "Gedung A",
+    description: "Gedung utama",
+    floors: {
+      create: [
+        {
+          name: "Lantai 1",
+          cameras: {
+            create: [
+              { name: "Kamera 1A" },
+              { name: "Kamera 1B" }
+            ]
+          }
+        },
+        {
+          name: "Lantai 2",
+          cameras: {
+            create: [
+              { name: "Kamera 2A" },
+              { name: "Kamera 2B" }
+            ]
+          }
+        }
+      ]
+    }
+  }
+});
+
+console.log("Data berhasil dibuat:", location);
 }
 
 main()
