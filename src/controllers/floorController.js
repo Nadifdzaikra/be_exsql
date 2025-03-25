@@ -8,7 +8,8 @@ export const getFloorsByLocation = async (req, res) => {
         locationId: req.params.id
       },
       include: {
-        cameras: true
+        cameras: true,
+        
       }
     });
     res.json(floors);

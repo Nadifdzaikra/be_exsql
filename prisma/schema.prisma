@@ -56,6 +56,15 @@ model Location {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   floors Floor[]
+  position PositionLocation?
+}
+
+model PositionLocation {
+  id String @id @default(cuid())
+  locationId String @unique
+  latitude String
+  longitude String
+  locations Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 }
 
 model Camera {
@@ -65,6 +74,17 @@ model Camera {
   floors Floor @relation(fields: [floorId], references: [id])
   craeteAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  location PLanCamera?
+}
+
+model PLanCamera {
+  id String @id @default(cuid())
+  cameraId String @unique //FK
+  cameras Camera @relation(fields: [cameraId], references: [id])
+  x         String
+  y         String
+  width     String
+  height    String
 }
 
 model Floor {

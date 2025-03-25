@@ -57,14 +57,17 @@ const location = await prisma.location.create({
   data: {
     name: "Gedung A",
     description: "Gedung utama",
+    position: {
+      create: { latitude: "", longitude: ""}
+    },
     floors: {
       create: [
         {
           name: "Lantai 1",
           cameras: {
             create: [
-              { name: "Kamera 1A" },
-              { name: "Kamera 1B" }
+              { name: "Kamera 1A", location: { create : { x: "0", y: "0", width: "0", height: "0" }} },
+              { name: "Kamera 1B", location: { create : { x: "0", y: "0", width: "0", height: "0" }} }
             ]
           }
         },
@@ -72,8 +75,8 @@ const location = await prisma.location.create({
           name: "Lantai 2",
           cameras: {
             create: [
-              { name: "Kamera 2A" },
-              { name: "Kamera 2B" }
+              { name: "Kamera 2A" ,location: {create : { x: "0", y: "0", width: "0", height: "0" }}},
+              { name: "Kamera 2B" ,location: {create : { x: "0", y: "0", width: "0", height: "0" }}}
             ]
           }
         }
@@ -81,6 +84,7 @@ const location = await prisma.location.create({
     }
   }
 });
+
 
 console.log("Data berhasil dibuat:", location);
 }

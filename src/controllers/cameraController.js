@@ -6,7 +6,7 @@ export const getCamerasByFloor = async (req, res) => {
     const { floorId } = req.params;
     const cameras = await prisma.camera.findMany({
       where: { floorId },
-      include: { floor: true },
+      include: { floor: true, location: true },
     });
     res.json(cameras);
   } catch (error) {
@@ -17,7 +17,7 @@ export const getCamerasByFloor = async (req, res) => {
 export const getAllCameras = async (req, res) => {
   try {
     const cameras = await prisma.camera.findMany({
-      include: { floors: true },
+      include: { floors: true, location: true },
       orderBy: [ { name: "asc" }, { floors: { name: "asc" }}],
     });
     res.json(cameras);

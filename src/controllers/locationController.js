@@ -4,7 +4,8 @@ export const getAllLocations = async (req, res) => {
   try{
     const location = await prisma.location.findMany(
       {include: {
-        floors: true
+        floors: true,
+        position: true
       }}
     );
     res.json(location)
